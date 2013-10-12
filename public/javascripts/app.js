@@ -25,6 +25,11 @@ App = {
 		errorCallback: function(error){
 			console.log("error!");
 		}
+	},
+	Socket: {
+		createSocket: function(){
+			
+		}
 	}
 }
 
