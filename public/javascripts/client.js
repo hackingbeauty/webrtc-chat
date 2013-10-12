@@ -1,6 +1,7 @@
 App = {
 	init: function(){
 		this.Video.getVideo();
+		this.Socket.createSocket();
 	},
 	Video: {
 		getVideo: function(){
@@ -28,7 +29,19 @@ App = {
 	},
 	Socket: {
 		createSocket: function(){
-			
+			var socket = io.connect(window.location.origin);
+
+			socket.on('connect', function(data){
+				
+				socket.emit('connectionRequest', function(){
+					// do nothing yet
+				});
+
+				socket.on('connectionSuccess', function(data){
+					console.log(data);
+				})
+
+			});	
 		}
 	}
 }

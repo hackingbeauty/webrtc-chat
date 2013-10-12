@@ -13,7 +13,6 @@ var port = '3900'; //process.env.PORT for production - use 'process.env.PORT || 
 var io = require('socket.io').listen(app.listen(port));
 
 
-
 // all environments
 app.set('port', port);
 app.set('views', __dirname + '/views');
