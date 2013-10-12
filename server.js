@@ -9,11 +9,13 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var app = express();
-var io =  require('socket.io').listen(app);
+var port = '3900'; //process.env.PORT for production - use 'process.env.PORT || "3800"'
+var io = require('socket.io').listen(app.listen(port));
+
 
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -36,8 +38,3 @@ app.get('/users', user.list);
 // SOCKET STUFF
 require('./lib/socket')(io);
 
-
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
