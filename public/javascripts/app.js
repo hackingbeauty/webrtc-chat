@@ -17,6 +17,10 @@ App = {
 		},
 		successCallback: function(localMediaStream){
 			console.log("success!");
+			var video = document.querySelector("video");
+			window.stream = localMediaStream;
+			video.src = window.URL.createObjectURL(localMediaStream);
+			video.play();
 		},
 		errorCallback: function(error){
 			console.log("error!");
