@@ -1,7 +1,19 @@
+html,
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #202020;
+  color: #fff;
 }
-a {
-  color: #00b7ff;
+h1 {
+  margin: 0;
+  line-height: 0;
+  font-size: 23px;
+}
+header {
+  padding: 11px;
+  background: #2f2f2f;
+  height: 40px;
+}
+header h1 {
+  color: #fff;
+  padding-top: 10px;
 }
