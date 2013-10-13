@@ -18,12 +18,24 @@ html
 
 		script(type='text/x-handlebars', data-template-name='rooms')
 			div.row
-				div.small-12.large-12.columns
-					section
-						ul#room-list
-							| {{#each}}
-							li {{ name }}
-							| {{/each}}
+				div.small-9.large-9.columns
+					section.module
+						.module-header
+							| All rooms
+						.module-body
+							ul#room-list
+								| {{#each}}
+								li 
+									div.small-9.large-9.columns
+										span.name {{ name }}
+									div.small-3.large-3.columns
+										div.join-now
+											| Join Now
+								| {{/each}}
+
+				div.small-3.large-3.columns
+					section.module
+						| yo side stuff
 	
 
 		script(src='/socket.io/socket.io.js')
