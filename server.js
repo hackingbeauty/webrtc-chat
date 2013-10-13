@@ -12,6 +12,11 @@ var app = express();
 var port = '3900'; //process.env.PORT for production - use 'process.env.PORT || "3800"'
 var io = require('socket.io').listen(app.listen(port));
 
+// var redis = require('redis');
+var redis = require('redis-url').connect(process.env.REDISTOGO_URL || '6379');
+var onLineUsers = [];
+redis.set('onlineUsers', onLineUsers);
+
 
 // all environments
 app.set('port', port);
@@ -35,5 +40,5 @@ app.get('/users', user.list);
 
 
 // SOCKET STUFF
-require('./lib/socket')(io);
+// require('./lib/socket')(io,onLineUsers);
 
