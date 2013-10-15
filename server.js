@@ -5,7 +5,7 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
+// require('./lib/socket')(io,onLineUsers);
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -36,9 +36,9 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
 
+app.get('/room/new', function(req, res){
+	res.send("respond with a resource");
+});
 
-// SOCKET STUFF
-// require('./lib/socket')(io,onLineUsers);
 
