@@ -13,7 +13,10 @@
     "redis": "latest",
     "redis-url": "0.1.0",
     "passport": "~0.1.17",
-    "passport-twitter": "~1.0.2"
+    "passport-twitter": "~1.0.2",
+    "mongoose": "~3.6.20",
+    "connect-mongo": "~0.3.3",
+    "passport-facebook": "~1.0.1"
   },
   "devDependencies": {
     "node-dev": "~2.0.2",
