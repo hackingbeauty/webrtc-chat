@@ -11,7 +11,9 @@
     "stylus": "*",
     "socket.io": "latest",
     "redis": "latest",
-    "redis-url": "0.1.0"
+    "redis-url": "0.1.0",
+    "passport": "~0.1.17",
+    "passport-twitter": "~1.0.2"
   },
   "devDependencies": {
     "node-dev": "~2.0.2",
