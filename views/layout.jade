@@ -12,10 +12,8 @@ html
 					h1.left WebRTC Chat
 					a.right(href='/auth/facebook') Sign in with Facebook
 		
-
-		script(type='text/x-handlebars', data-template-name='application')
+		#main
 			block content
-			| {{outlet}}
 
 		script(type='text/x-handlebars', data-template-name='rooms')
 			div.row

@@ -18,6 +18,7 @@ var MongoStore = require('connect-mongo')(express);
 var mongoose = require ("mongoose");
 var findOrCreate = require('mongoose-findorcreate')
 var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/webrtc';
+var jade = require('jade');
 
 
 // var redis = require('redis');
@@ -80,7 +81,10 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 app.get('/room/new', function(req, res){
-	res.send("respond with a resource");
+	// res.send("respond with a resource");
+  // app.renderFile('views/main_room');
+  res.render('main_room', { title: 'Express' });
+
 });
 
 passport.serializeUser(function(user, done) {
