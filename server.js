@@ -10,22 +10,23 @@
 
 'use strict';
 var 
-    express           = require('express'),
-    http              = require('http'),
-    path              = require('path'),
-    app               = express(),
-    port              = '3900', //process.env.PORT for production - use 'process.env.PORT || "3800"'
-    io                = require('socket.io').listen(app.listen(port)),
-    passport          = require('passport'),
-    FacebookStrategy  = require('passport-facebook').Strategy,
-    store             = new express.session.MemoryStore,
-    MongoStore        = require('connect-mongo')(express),
-    mongoose          = require ("mongoose"),
-    findOrCreate      = require('mongoose-findorcreate'),
-    uristring         = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/webrtc',
-    jade              = require('jade'),
-    routes            = require('./routes'),
-    server            = http.createServer( app );
+    express             = require('express'),
+    http                = require('http'),
+    path                = require('path'),
+    app                 = express(),
+    port                = '3900', //process.env.PORT for production - use 'process.env.PORT || "3800"'
+    io                  = require('socket.io').listen(app.listen(port)),
+    passport            = require('passport'),
+    Strategy            = require('passport-facebook').Strategy,
+    store               = new express.session.MemoryStore,
+    MongoStore          = require('connect-mongo')(express),
+    mongoose            = require ("mongoose"),
+    findOrCreate        = require('mongoose-findorcreate'),
+    uristring           = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/webrtc',
+    jade                = require('jade'),
+    routes              = require('./routes'),
+    authentication      = require('./config/authentication'),
+    server              = http.createServer( app );
 
 // ------------- END MODULE SCOPE VARIABLES ---------------
 
@@ -46,6 +47,8 @@ app.configure( function() {
 
 app.configure( 'development', function() {
     app.use( express.logger() );
+    app.set('view options', { pretty: true });
+    app.locals.pretty = true;
     app.use( express.errorHandler({
         dumpExceptions: true,
         showStack: true
@@ -57,44 +60,11 @@ app.configure( 'production', function() {
 });
 
 
-
 routes.configRoutes(app,server);
 
+authentication.authenticate(passport,Strategy);
 
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
-passport.use(new FacebookStrategy({
-    clientID: '218363748287603',
-    clientSecret: '58a7e992463b6a17b73ccee8b0c0dfee',
-    callbackURL: "/room/main_room"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({facebookID : profile.id}, function(err, oldUser){
-        if(oldUser){
-            done(null,oldUser);
-        }else{
-        	console.log('profile: ', profile);
-            var newUser = new User({
-                facebookID : profile.id ,
-                firstName: profile.first_ame,
-                lastName : profile.last_name
-            }).save(function(err,newUser){
-                if(err) throw err;
-                done(null, newUser);
-            });
-        }
-    });
-  }
-));
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
