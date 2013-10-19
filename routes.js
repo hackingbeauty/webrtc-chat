@@ -12,7 +12,7 @@
 
 var routes = function(app, server){
 	
-	app.all('/:objType/*?', function(req, res, next){
+	app.all('/api/:objType/*?', function(req, res, next){
 		res.contentType('json');
 		next();
 	});
@@ -21,28 +21,28 @@ var routes = function(app, server){
 	    res.render('index', { title: 'Video Chat' });
 	});
 
-	app.get('/:objType/list', function(req, res){
+	app.get('/api/:objType/list', function(req, res){
 		res.send({ title: 'room list'});
 	  	// res.render('main_room', { title: 'Video Debate' });
 	});
 
-	app.post('/:objType/create', function(req, res){
+	app.post('/api/:objType/create', function(req, res){
 		res.send({ title: 'room created'})
 	});
 
-	app.get('/:objType/:id([0-9]+)', function(req, res){
+	app.get('/api/:objType/:id([0-9]+)', function(req, res){
 		res.send({ 
 			title: 'room with id: ' + req.params.id + ' found'
 		});
 	});
 
-	app.post('/:objType/update/:id([0-9]+)', function(req, res) {
+	app.post('/api/:objType/update/:id([0-9]+)', function(req, res) {
 		res.send({ 
 			title: 'room with id: ' + req.params.id + ' updated'
 		});
 	});
 
-	app.get('/:objType/delete/:id([0-9]+)', function(req, res){
+	app.get('/api/:objType/delete/:id([0-9]+)', function(req, res){
 		res.send({ 
 			title: 'room with id ' + req.params.id + ' deleted' 
 		});
