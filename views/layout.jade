@@ -9,8 +9,9 @@ html
 		header
 			div.row
 				div.small-12.large-12.columns
-					h1.left WebRTC Chat
-					a.right(href='/auth/facebook') Sign in with Facebook
+					h1.left 
+						a(href='/', title='WebRTC Chat') WebRTC Chat
+					a.right(href='/auth/facebook', title='Sign in with Facebook') Sign in with Facebook
 		
 		#main
 			block content
@@ -32,9 +33,6 @@ html
 											| Join Now
 								| {{/each}}
 
-				div.small-3.large-3.columns
-					section.module
-						| side stuff
 	
 
 		script(src='/socket.io/socket.io.js')
