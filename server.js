@@ -80,10 +80,8 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 
-app.get('/room/new', function(req, res){
-	// res.send("respond with a resource");
-  // app.renderFile('views/main_room');
-  res.render('main_room', { title: 'Express' });
+app.get('/room/main_room', function(req, res){
+  res.render('main_room', { title: 'WebRTC App' });
 
 });
 
@@ -100,7 +98,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new FacebookStrategy({
     clientID: '218363748287603',
     clientSecret: '58a7e992463b6a17b73ccee8b0c0dfee',
-    callbackURL: "/room/new"
+    callbackURL: "/room/main_room"
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOne({facebookID : profile.id}, function(err, oldUser){
