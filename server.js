@@ -11,7 +11,6 @@
 'use strict';
 var 
     express           = require('express'),
-    routes            = require('./routes'),
     http              = require('http'),
     path              = require('path'),
     app               = express(),
@@ -24,7 +23,9 @@ var
     mongoose          = require ("mongoose"),
     findOrCreate      = require('mongoose-findorcreate'),
     uristring         = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/webrtc',
-    jade              = require('jade');
+    jade              = require('jade'),
+    routes            = require('./routes'),
+    server            = http.createServer( app );
 
 // ------------- END MODULE SCOPE VARIABLES ---------------
 
@@ -54,23 +55,10 @@ app.configure( 'development', function() {
 app.configure( 'production', function() {
     app.use( express.errorHandler() );
 });
-app.use(express.logger('dev'));
+
+routes( app, server );
 
 
-
-
-
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
-
-app.get('/', routes.index);
-
-app.get('/room/main_room', function(req, res){
-  res.render('main_room', { title: 'Video Debate' });
-
-});
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

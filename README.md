@@ -22,6 +22,10 @@
 
 	db.getCollectionNames()
 
+* to start in production mode:
+
+	NODE_ENV=production node app.js
+
 
 
 
