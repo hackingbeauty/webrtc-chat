@@ -56,7 +56,9 @@ app.configure( 'production', function() {
     app.use( express.errorHandler() );
 });
 
-routes( app, server );
+
+
+routes.configRoutes(app,server);
 
 
 
