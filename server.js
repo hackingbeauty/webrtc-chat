@@ -32,8 +32,16 @@ var
 
 // ------------- BEGIN SERVER CONFIGURATION ---------------
 
-app.configure( function() {
-    app.use(express.bodyParser()); // decodes forms
+// all environments
+app.configure(function() {
+    app.use(express.cookieParser());
+    app.use(express.bodyParser()); // decodes form
+    app.use(express.session({
+      store: new MongoStore({
+        url: 'mongodb://localhost/webrtc'
+      }),
+      secret: '1234567890QWERTY'
+    }));    
     app.use(express.methodOverride()); // used for creating RESTful services
     app.use(passport.initialize());
     app.set('port', port);
@@ -45,7 +53,8 @@ app.configure( function() {
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure( 'development', function() {
+// development environment
+app.configure('development', function() {
     app.use( express.logger() );
     app.set('view options', { pretty: true });
     app.locals.pretty = true;
@@ -55,30 +64,10 @@ app.configure( 'development', function() {
     }));
 });
 
-app.configure( 'production', function() {
+//production environment
+app.configure('production', function() {
     app.use( express.errorHandler() );
 });
-
-
-routes.configRoutes(app,server);
-
-authentication.authenticate(passport,Strategy);
-
-
-
-app.get('/auth/facebook', passport.authenticate('facebook'));
-
-// Facebook will redirect the user to this URL after approval.  Finish the
-// authentication process by attempting to obtain an access token.  If
-// access was granted, the user will be logged in.  Otherwise,
-// authentication has failed.
-app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: '/',
-                                     failureRedirect: '/login' }));
-
-
-
-
 
 
 // Makes connection asynchronously.  Mongoose will queue up database
@@ -103,12 +92,6 @@ var UserSchema = new mongoose.Schema({
 UserSchema.plugin(findOrCreate); // Gives you the ability to do User.findOrCreate
 var User = mongoose.model('User', UserSchema);
 
-// all environments
-app.use(express.cookieParser());
-app.use(express.bodyParser());
-app.use(express.session({
-  store: new MongoStore({
-    url: 'mongodb://localhost/webrtc'
-  }),
-  secret: '1234567890QWERTY'
-}));
+
+authentication.authenticate(passport,Strategy);
+routes.configRoutes(app, server, mongoose, passport);

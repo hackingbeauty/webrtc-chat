@@ -9,8 +9,25 @@
   white  : true
 */
 /*global */
+'use strict';
 
-var routes = function(app, server){
+// var
+// 	configRoutes,
+// 	mongodb				= require('mongodb'),
+// 	mongoServer			= new mongodb.Server(
+// 		'localhost/webrtc',
+// 		mongodb.Connection.DEFAULT_PORT
+// 	),
+// 	dbHandle			= new mongodb.DB(
+// 		'spa', mongoServer, { safe: true }
+// 	);
+
+// dbHandle.open(function(){
+// 	console.log('** Connected to MongoDB **');
+// })
+
+var routes = function(app, server, dbHandle, passport){
+
 	
 	app.all('/api/:objType/*?', function(req, res, next){
 		res.contentType('json');
@@ -19,6 +36,7 @@ var routes = function(app, server){
 
 	app.get('/', function(req, res){
 	    res.render('index', { title: 'Video Chat' });
+	 
 	});
 
 	app.get('/api/:objType/list', function(req, res){
@@ -47,6 +65,12 @@ var routes = function(app, server){
 			title: 'room with id ' + req.params.id + ' deleted' 
 		});
 	});
+
+	app.get('/auth/facebook', passport.authenticate('facebook'));
+
+	app.get('/auth/facebook/callback', 
+	  passport.authenticate('facebook', { successRedirect: '/',
+	                                     failureRedirect: '/login' }));
 
 }
 
