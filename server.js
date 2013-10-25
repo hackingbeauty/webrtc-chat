@@ -6,9 +6,10 @@
 */
 /*global */
 
+'use strict';
+
 // ------------ BEGIN MODULE SCOPE VARIABLES --------------
 
-'use strict';
 var 
     express             = require('express'),
     http                = require('http'),
