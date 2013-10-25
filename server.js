@@ -16,6 +16,7 @@ var
     app                 = express(),
     port                = '3900', //process.env.PORT for production - use 'process.env.PORT || "3800"'
     io                  = require('socket.io').listen(app.listen(port)),
+    socket              = require('./lib/socket')(io),
     passport            = require('passport'),
     Strategy            = require('passport-facebook').Strategy,
     store               = new express.session.MemoryStore,
@@ -92,6 +93,19 @@ var UserSchema = new mongoose.Schema({
 UserSchema.plugin(findOrCreate); // Gives you the ability to do User.findOrCreate
 var User = mongoose.model('User', UserSchema);
 
+var RoomSchema = new mongoose.Schema({
+  name: { type: String },
+  moderator: { type: String }
+});
+
+RoomSchema.plugin(findOrCreate);
+var Room = mongoose.model('Room', RoomSchema);
+
+var schemaObj = {
+  User: User,
+  Room: Room
+}
+
 
 authentication.authenticate(passport,Strategy);
-routes.configRoutes(app, server, mongoose, passport);
+routes.configRoutes(app, server, mongoose, passport, schemaObj);

@@ -11,38 +11,29 @@ html
 				div.small-12.large-12.columns
 					h1.left 
 						a(href='/', title='WebRTC Chat') Video Debate
-					a.right(href='/auth/facebook', title='Sign in with Facebook') Sign in with Facebook
+					//- a.right(href='/auth/facebook', title='Sign in with Facebook') Sign in with Facebook
 		
 		#main
 			block content
+			.row
+				.small-12.large-12
+					p Chat
+					input#room-name
+					button#join-room Join
+			.row
+				.small-12.large-12
+					input#message
+					button#send-message Talk
 
-		//- script(type='text/x-handlebars', data-template-name='rooms')
-		//- 	div.row
-		//- 		div.small-9.large-9.columns
-		//- 			section.module
-		//- 				.module-header
-		//- 					| All rooms
-		//- 				.module-body
-		//- 					ul#room-list
-		//- 						| {{#each}}
-		//- 						li 
-		//- 							div.small-9.large-9.columns
-		//- 								span.name {{ name }}
-		//- 							div.small-3.large-3.columns
-		//- 								div.join-now
-		//- 									| Join Now
-		//- 						| {{/each}}
-
-	
+			.row
+				.small-12.large-12
+					ul#messages
 
 		script(src='/socket.io/socket.io.js')
 		script(src='javascripts/vendor/jquery-2.0.3.js', type='text/javascript')
 		script(src='javascripts/vendor/handlebars-1.0.0.js', type='text/javascript')
-		script(src='javascripts/vendor/ember-1.0.0.js', type='text/javascript')
-		script(src='javascripts/vendor/ember-data-1.0.0-beta.3.js', type='text/javascript')
+		script(src='javascripts/lib/rtc_client.js', type='text/javascript')
 		script(src='javascripts/app.js', type='text/javascript')
-		script(src='javascripts/router.js', type='text/javascript')
-		script(src='javascripts/models/room.js', type='text/javascript')
-		script(src='javascripts/main_room.js', type='text/javascript')
+
 
 

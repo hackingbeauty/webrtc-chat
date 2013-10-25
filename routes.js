@@ -26,7 +26,7 @@
 // 	console.log('** Connected to MongoDB **');
 // })
 
-var routes = function(app, server, dbHandle, passport){
+var routes = function(app, server, dbHandle, passport, schemaObj){
 
 	
 	app.all('/api/:objType/*?', function(req, res, next){
@@ -41,7 +41,7 @@ var routes = function(app, server, dbHandle, passport){
 
 	app.get('/api/:objType/list', function(req, res){
 		res.send({ title: 'room list'});
-	  	// res.render('main_room', { title: 'Video Debate' });
+	  	console.log('boo: ', schemaObj.Room.find());
 	});
 
 	app.post('/api/:objType/create', function(req, res){
