@@ -30,8 +30,10 @@ html
 					ul#messages
 
 			.row
-				.small-12.large-12
-					video#user-video(height='180', width='320')
+				.small-6.large-6
+					video#local-video(height='180', width='320')
+				.small-6.large-6
+					video#remote-video(height='180', width='320')
 
 		script(src='/socket.io/socket.io.js')
 		script(src='javascripts/vendor/jquery-2.0.3.js', type='text/javascript')

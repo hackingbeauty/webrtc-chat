@@ -25,7 +25,7 @@ WebrtcChat.RtcClient = (function(global){
 	}
 
 	function successfulStream(stream){
-		var video = document.getElementById('user-video');
+		var video = document.getElementById('local-video');
 		video.src = window.URL.createObjectURL(stream);
 		video.play();
 	}
