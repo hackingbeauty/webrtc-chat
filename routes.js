@@ -66,6 +66,15 @@ var routes = function(app, server, mongoose, passport){
 
 	});
 
+	app.post('/api/users/create', function(req, res){
+
+	  	User.find(function(err, users) {
+		  if (err) return console.error(err);
+		  res.send({ users: users});
+		});
+
+	});
+
 	/** End User Routes **/
 
 

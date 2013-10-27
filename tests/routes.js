@@ -38,35 +38,35 @@ describe('API', function(){
 	});
 
 
-	describe('UPDATE /api/rooms/update', function(){
+	// describe('UPDATE /api/rooms/update', function(){
 
-		var body;
+	// 	var body;
 
-		before(function(done){
-			request('http://localhost:3900/api/rooms/update', function(err, resp, _body){
-				console.log('body is: ', JSON.parse(_body));
-				body = _body
-				done();
-			})
-		});
+	// 	before(function(done){
+	// 		request('http://localhost:3900/api/rooms/update', function(err, resp, _body){
+	// 			console.log('body is: ', JSON.parse(_body));
+	// 			body = _body
+	// 			done();
+	// 		})
+	// 	});
 		
-		it('should update a room'); //tests without a callback are pending
-	});
+	// 	it('should update a room'); //tests without a callback are pending
+	// });
 
 
-	describe('DELETE /api/rooms/delete', function(){
+	// describe('DELETE /api/rooms/delete', function(){
 
-		var body;
+	// 	var body;
 
-		before(function(done){
-			request('http://localhost:3900/api/rooms/delete', function(err, resp, _body){
-				console.log('body is: ', JSON.parse(_body));
-				body = _body
-				done();
-			})
-		});
+	// 	before(function(done){
+	// 		request('http://localhost:3900/api/rooms/delete', function(err, resp, _body){
+	// 			console.log('body is: ', JSON.parse(_body));
+	// 			body = _body
+	// 			done();
+	// 		})
+	// 	});
 		
-		it('should delete a room'); //tests without a callback are pending
-	});
+	// 	it('should delete a room'); //tests without a callback are pending
+	// });
 
 });
