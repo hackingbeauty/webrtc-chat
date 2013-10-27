@@ -15,6 +15,18 @@ WebrtcChat.RtcClient = (function(global){
 		video: true
 	}
 
+	var ice = {
+		'iceServers': [
+			{'url' : 'stun:stunserver.com:12345'},
+			{'url' : 'turn:user@turnserver.com', 'credential': 'pass'}
+		]
+	};
+
+	var socket = io.connect(window.location.origin);
+	
+	var peerConnection = new webkitRTCPeerConnection(ice);
+	// new mozRTCPeerConnection(ice) ;
+
 	function addVideoStream(){
 		navigator.getMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
@@ -25,9 +37,34 @@ WebrtcChat.RtcClient = (function(global){
 	}
 
 	function successfulStream(stream){
-		var video = document.getElementById('local-video');
-		video.src = window.URL.createObjectURL(stream);
-		video.play();
+
+		var localVideo = document.getElementById('local-video');
+
+		peerConnection.addStream(stream);
+
+		localVideo.src = window.URL.createObjectURL(stream);
+		localVideo.play();
+
+		peerConnection.createOffer(function(offer){
+			peerConnection.setLocalDescription(offer);
+			socket.emit('rtc offer', offer.sdp);
+		});
+
+		peerConnection.onicecandidate = function(evt){
+			if(evt.candidate){
+				socket.emit('on ice candidate', evt.candidate);
+			}
+		}
+
+		// socket.on('onmessage')
+
+		peerConnection.onaddstream = function(evt){
+			console.log('inside onaddstream');
+			var remoteVideo = document.getElementById('remote-video');
+			remoteVideo.src = window.URL.createObjectURL(evt.stream);
+			remoteVideo.play();
+		}
+
 	}
 
 	function error(){
