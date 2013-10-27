@@ -1,3 +1,7 @@
+/*
+ * spa.shell.css
+ * Shell styles
+*/
 .spa-shell-head,
 .spa-shell-head-logo,
 .spa-shell-head-acct,
@@ -92,7 +96,4 @@
   background: #fff;
   border-radius: 3px;
   z-index: 2;
-}
-* {
-  border: 1px solid #f00 !important;
 }

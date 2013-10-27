@@ -37,6 +37,9 @@ html
 				.small-6.large-6
 					video#remote-video(height='180', width='320')
 
+			#spa
+				
+
 		//- Third Party JavaScript
 		script(src='/socket.io/socket.io.js')
 		script(src='javascripts/vendor/jquery-2.0.3.js', type='text/javascript')
@@ -52,7 +55,7 @@ html
 
 		//- Initialize the app
 		script(type='text/javascript')
-			$(function(){
-				spa.initModule($('#spa'));
+			(function(){
+				spa.initModule($('#spa'));	
 			})();
 
