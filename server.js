@@ -76,37 +76,13 @@ app.configure('production', function() {
 // operations and release them when the connection is complete.
 mongoose.connect(uristring, function (err, res) {
   if (err) { 
-  console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
   } else {
-  console.log ('Succeeded connected to: ' + uristring);
+    console.log ('Succeeded connected to: ' + uristring);
   }
 });
 
-// Mongoose schema
-var UserSchema = new mongoose.Schema({
-  firstName: { type: String },
-  lastName: { type: String },
-  age: { type: Number, min: 0},
-  facebookID: { type: Number },
-  email: {type: String }
-});
-
-UserSchema.plugin(findOrCreate); // Gives you the ability to do User.findOrCreate
-var User = mongoose.model('User', UserSchema);
-
-var RoomSchema = new mongoose.Schema({
-  name: { type: String },
-  moderator: { type: String }
-});
-
-RoomSchema.plugin(findOrCreate);
-var Room = mongoose.model('Room', RoomSchema);
-
-var schemaObj = {
-  User: User,
-  Room: Room
-}
 
 
 authentication.authenticate(passport,Strategy);
-routes.configRoutes(app, server, mongoose, passport, schemaObj);
+routes.configRoutes(app, server, mongoose, passport);

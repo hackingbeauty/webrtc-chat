@@ -18,6 +18,10 @@
 
 	db.createCollection('collection name')
 
+* use a specific database in mongo:
+
+	use webrtc; (or other database/collection name)
+
 * show all mongodb collections:
 
 	db.getCollectionNames()
