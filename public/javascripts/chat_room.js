@@ -8,7 +8,7 @@
 
 'use strict';
 
-WebrtcChat.ChatRoom = (function(global){
+spa.ChatRoom = (function(global){
 	
 	var socket = io.connect(window.location.origin);
 
@@ -57,7 +57,7 @@ WebrtcChat.ChatRoom = (function(global){
 
 })(window);
 
-WebrtcChat.ChatRoom.init();
+spa.ChatRoom.init();
 
 
 

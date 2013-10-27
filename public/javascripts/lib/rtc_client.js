@@ -8,7 +8,7 @@
 
 'use strict';
 
-WebrtcChat.RtcClient = (function(global){
+spa.RtcClient = (function(global){
 
 	var constraints = {
 		audio: true,
@@ -81,4 +81,4 @@ WebrtcChat.RtcClient = (function(global){
 
 })(window);
 
-WebrtcChat.RtcClient.init();
+spa.RtcClient.init();

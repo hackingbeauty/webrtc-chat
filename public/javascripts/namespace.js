@@ -8,4 +8,4 @@
 
 'use strict';
 
-var WebrtcChat = WebrtcChat || {}; //namespace
+var spa = spa || {}; //namespace
