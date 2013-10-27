@@ -14,7 +14,7 @@ var
     express             = require('express'),
     http                = require('http'),
     path                = require('path'),
-    app                 = express(),
+    app                 = module.exports = express(),
     port                = '3900', //process.env.PORT for production - use 'process.env.PORT || "3800"'
     io                  = require('socket.io').listen(app.listen(port)),
     socket              = require('./lib/socket')(io),
