@@ -39,17 +39,7 @@ html
 					video#remote-video(height='180', width='320')
 
 			#spa
-				.spa-shell-head-logo
-				.spa-shell-head-acct
-				.spa-shell-head-search
-
-				.spa-shell-main
-					.spa-shell-main-nav
-					.spa-shell-main-content
-
-				.spa-shell-foot
-				.spa-shell-chat
-				.spa-shell-modal
+	
 
 
 		//- Third Party JavaScript
@@ -66,8 +56,8 @@ html
 		script(src='javascripts/lib/rtc_client.js', type='text/javascript')
 
 		//- Initialize the app
-		//- script(type='text/javascript')
-		//- 	(function(){
-		//- 		spa.initModule($('#spa'));	
-		//- 	})();
+		script(type='text/javascript')
+			(function(){
+				spa.initModule($('#spa'));	
+			})();
 
