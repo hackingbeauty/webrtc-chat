@@ -82,7 +82,6 @@ mongoose.connect(uristring, function (err, res) {
   }
 });
 
-
-
 authentication.authenticate(passport,Strategy);
 routes.configRoutes(app, server, mongoose, passport);
+

@@ -8,77 +8,96 @@
 
 'use strict';
 
-spa.RtcClient = (function(global){
+spa.RTCClient = (function(global){
 
-	var constraints = {
-		audio: true,
-		video: true
-	}
-
-	var ice = {
-		'iceServers': [
-			{'url' : 'stun:stunserver.com:12345'},
-			{'url' : 'turn:user@turnserver.com', 'credential': 'pass'}
-		]
-	};
-
-	var socket = io.connect(window.location.origin);
+	var 	
+		constraints = {
+			audio: true,
+			video: true
+		},
+		ice = {
+			'iceServers': [
+				{'url' : 'stun:stunserver.com:12345'},
+				{'url' : 'turn:user@turnserver.com', 'credential': 'pass'}
+			]
+		}, 
+		localVideo = document.getElementById('local-video'),
+		remoteVideo = document.getElementById('remote-video'),
+		socket = io.connect(window.location.origin),
+		peerConnection;
 	
-	var peerConnection = new webkitRTCPeerConnection(ice);
-	// new mozRTCPeerConnection(ice) ;
 
-	function addVideoStream(){
+	function start(){
+		peerConnection = new webkitRTCPeerConnection(ice);
+
+	  	// send any ice candidates to the other peer
+		peerConnection.onicecandidate = function (evt) {
+			if (evt.candidate){
+				socket.emit('ice candidate', {
+					'candidate': evt.candidate
+				});
+			}
+		}
+
+		peerConnection.onnegotiationneeded = function () {
+    		peerConnection.createOffer(localDescCreated, logError);
+  		}
+
+  		peerConnection.onaddstream = function(evt){
+			remoteVideo.src = URL.createObjectURL(evt.stream);
+			remoteVideo.play()
+  		}
+
 		navigator.getMedia = ( navigator.getUserMedia ||
-                       navigator.webkitGetUserMedia ||
-                       navigator.mozGetUserMedia ||
-                       navigator.msGetUserMedia);
+           navigator.webkitGetUserMedia ||
+           navigator.mozGetUserMedia ||
+           navigator.msGetUserMedia);
 
 		navigator.getMedia(constraints, successfulStream, error);
 	}
 
+	function localDescCreated(desc) {
+	  peerConnect.setLocalDescription(desc, function () {
+	    signalingChannel.send(JSON.stringify());
+
+	    socket.emit('sdp', {
+	    	'sdp': peerConnection.localDescription
+	    });
+
+	  }, error);
+	}
+
+	
+	signalingChannel.onmessage = function (evt) {
+	  if (!pc)
+	    start();
+
+	  var message = JSON.parse(evt.data);
+	  if (message.sdp)
+	    pc.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
+	      // if we received an offer, we need to answer
+	      if (pc.remoteDescription.type == 'offer')
+	        pc.createAnswer(localDescCreated, logError);
+	    }, logError);
+	  else
+	    pc.addIceCandidate(new RTCIceCandidate(message.candidate));
+	};
+
+
 	function successfulStream(stream){
-
-		var localVideo = document.getElementById('local-video');
-
 		peerConnection.addStream(stream);
-
 		localVideo.src = window.URL.createObjectURL(stream);
 		localVideo.play();
-
-		peerConnection.createOffer(function(offer){
-			peerConnection.setLocalDescription(offer);
-			socket.emit('rtc offer', offer.sdp);
-		});
-
-		peerConnection.onicecandidate = function(evt){
-			if(evt.candidate){
-				socket.emit('on ice candidate', evt.candidate);
-			}
-		}
-
-		// socket.on('onmessage')
-
-		peerConnection.onaddstream = function(evt){
-			console.log('inside onaddstream');
-			var remoteVideo = document.getElementById('remote-video');
-			remoteVideo.src = window.URL.createObjectURL(evt.stream);
-			remoteVideo.play();
-		}
-
 	}
 
-	function error(){
-		console.log('you have an error!');
-	}
-
-	function init(){
-		addVideoStream();
+	function error(error){
+		console.log(error.name + ': ' + error.message);
 	}
 
 	return {
-		init: init
+		start: start
 	}
 
 })(window);
 
-spa.RtcClient.init();
+spa.RTCClient.start();
